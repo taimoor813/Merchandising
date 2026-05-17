@@ -1,0 +1,716 @@
+# Merchandising
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Future Merchandiser | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ee;
+      --accent: #c8a96e;
+      --accent-dark: #a07840;
+      --gray: #888;
+      --light-gray: #e8e4df;
+      --card-bg: #141414;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,169,110,0.15);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      transition: opacity 0.3s, color 0.3s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      gap: 4rem;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      right: 0;
+      width: 45%;
+      height: 70%;
+      background: radial-gradient(ellipse at right, rgba(200,169,110,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-text { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 40px; height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 span { color: var(--accent); font-style: italic; }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(245,242,238,0.6);
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.85rem 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+    .hero-cta:hover { background: var(--accent); color: var(--black); }
+
+    /* ── HERO PHOTO ── */
+    .hero-photo-wrap {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-photo-frame {
+      position: relative;
+      width: 380px;
+      max-width: 100%;
+    }
+
+    .hero-photo-frame::before {
+      content: '';
+      position: absolute;
+      top: -12px; left: -12px;
+      right: 12px; bottom: 12px;
+      border: 1px solid rgba(200,169,110,0.4);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-photo-frame img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      z-index: 1;
+      filter: grayscale(20%) contrast(1.05);
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      background: var(--accent);
+      color: var(--black);
+      padding: 1rem 1.4rem;
+      z-index: 2;
+    }
+    .hero-badge .badge-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: block;
+    }
+    .hero-badge .badge-sub {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,242,238,0.5);
+      margin-top: 4px;
+    }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 6rem 4rem; position: relative; z-index: 1; }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-label::before {
+      content: '';
+      width: 30px; height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+    .section-title em { color: var(--accent); font-style: italic; }
+
+    /* ── ABOUT ── */
+    .about { background: #0f0f0f; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: rgba(245,242,238,0.65);
+      margin-bottom: 1.25rem;
+    }
+
+    .skills-list {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .skill-tag {
+      border: 1px solid rgba(200,169,110,0.35);
+      color: var(--accent);
+      padding: 0.35rem 0.9rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .about-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .detail-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 1.5rem;
+      transition: border-color 0.3s;
+    }
+    .detail-card:hover { border-color: rgba(200,169,110,0.3); }
+
+    .detail-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .detail-card h4 {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .detail-card p {
+      font-size: 0.88rem;
+      color: rgba(245,242,238,0.6);
+      line-height: 1.5;
+    }
+
+    /* ── TEAM / PROFILES ── */
+    .team { background: var(--black); }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .member-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      transition: transform 0.4s, border-color 0.4s;
+      cursor: pointer;
+      animation: fadeUp 0.6s both;
+    }
+    .member-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200,169,110,0.3);
+    }
+
+    .member-img-wrap { overflow: hidden; height: 320px; }
+    .member-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s;
+      filter: grayscale(15%);
+    }
+    .member-card:hover .member-img-wrap img { transform: scale(1.05); }
+
+    .member-info { padding: 1.5rem; }
+    .member-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .member-role {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ── ADD MEMBER BUTTON ── */
+    .add-member-card {
+      background: transparent;
+      border: 1px dashed rgba(200,169,110,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 420px;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+      gap: 1rem;
+    }
+    .add-member-card:hover {
+      border-color: var(--accent);
+      background: rgba(200,169,110,0.04);
+    }
+    .add-icon {
+      width: 50px; height: 50px;
+      border: 1px solid rgba(200,169,110,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+    .add-member-card span {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(200,169,110,0.6);
+    }
+
+    /* ── SERVICES ── */
+    .services { background: #0f0f0f; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .service-item {
+      padding: 2.5rem;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.3s;
+    }
+    .service-item:hover { background: rgba(200,169,110,0.04); }
+    .service-item:nth-child(3n) { border-right: none; }
+
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      color: rgba(200,169,110,0.2);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .service-item h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .service-item p {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: rgba(245,242,238,0.55);
+    }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--black); }
+
+    .contact-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-inner .section-label { justify-content: center; }
+    .contact-inner .section-label::before { display: none; }
+
+    .contact-inner p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: rgba(245,242,238,0.55);
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(200,169,110,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.3s;
+    }
+    .contact-link:hover { border-color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: rgba(245,242,238,0.3);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-text { animation: fadeUp 0.8s 0.1s both; }
+    .hero-photo-wrap { animation: fadeUp 0.8s 0.3s both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; text-align: center; }
+      .hero-eyebrow { justify-content: center; }
+      .hero-desc { margin: 0 auto 2rem; }
+      .hero-photo-wrap { display: none; }
+      section { padding: 4rem 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-item { border-right: none; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .stats { gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Future Merchandiser</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Garment Merchandising Portfolio</div>
+      <h1>Future<br><span>Merchandiser</span></h1>
+      <p class="hero-desc">
+        A professional team of garment merchandising experts delivering precision, quality, and style across every stage of the supply chain.
+      </p>
+      <a href="#team" class="hero-cta">
+        Meet the Team
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+
+      <div class="stats">
+        <div>
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div>
+          <div class="stat-num">200+</div>
+          <div class="stat-label">Projects Done</div>
+        </div>
+        <div>
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Brands Served</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-frame">
+        <img src="https://i.ibb.co/Lz8fxwJC/IMG-20240713-WA0017.jpg" alt="Taimoor Butt - Senior Merchandiser" />
+        <div class="hero-badge">
+          <span class="badge-title">Taimoor Butt</span>
+          <span class="badge-sub">Senior Merchandiser</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-label">About Us</div>
+        <h2 class="section-title">Experts in <em>Garment</em> Merchandising</h2>
+        <p>
+          We are a team of dedicated garment merchandising professionals with deep expertise in sourcing, production coordination, quality control, and supply chain management.
+        </p>
+        <p>
+          Our work bridges the gap between design vision and manufacturing reality — ensuring every product is delivered on time, within budget, and to the highest standards.
+        </p>
+        <div class="skills-list">
+          <span class="skill-tag">Sourcing</span>
+          <span class="skill-tag">Production</span>
+          <span class="skill-tag">Quality Control</span>
+          <span class="skill-tag">Costing</span>
+          <span class="skill-tag">Sampling</span>
+          <span class="skill-tag">Supply Chain</span>
+          <span class="skill-tag">Buyer Communication</span>
+          <span class="skill-tag">Tech Pack</span>
+        </div>
+      </div>
+
+      <div class="about-details">
+        <div class="detail-card">
+          <div class="detail-icon">🧵</div>
+          <h4>Sourcing</h4>
+          <p>Fabric & trim sourcing from top mills worldwide</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-icon">🏭</div>
+          <h4>Production</h4>
+          <p>End-to-end factory coordination & follow-up</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-icon">✅</div>
+          <h4>QC & Compliance</h4>
+          <p>Strict quality checks and buyer compliance</p>
+        </div>
+        <div class="detail-card">
+          <div class="detail-icon">📦</div>
+          <h4>Delivery</h4>
+          <p>On-time shipment planning & logistics</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team" id="team">
+    <div class="section-label">Our People</div>
+    <h2 class="section-title">Meet the <em>Team</em></h2>
+
+    <div class="team-grid" id="teamGrid">
+
+      <!-- Member: Taimoor Butt -->
+      <div class="member-card">
+        <div class="member-img-wrap">
+          <img src="https://i.ibb.co/Lz8fxwJC/IMG-20240713-WA0017.jpg" alt="Taimoor Butt" />
+        </div>
+        <div class="member-info">
+          <div class="member-name">Taimoor Butt</div>
+          <div class="member-role">Senior Merchandiser</div>
+        </div>
+      </div>
+
+      <!-- Add more -->
+      <div class="add-member-card" onclick="alert('Share the next photo link and name to add more team members!')">
+        <div class="add-icon">+</div>
+        <span>Add Team Member</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title">Our <em>Services</em></h2>
+
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-num">01</div>
+        <h3>Product Development</h3>
+        <p>From concept to sample — we manage the entire product development process with precision and speed.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">02</div>
+        <h3>Fabric & Trim Sourcing</h3>
+        <p>Connecting brands with the best fabric mills and trim suppliers to match quality and cost targets.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">03</div>
+        <h3>Costing & Negotiation</h3>
+        <p>Detailed costing analysis and factory price negotiation to maximize value without compromising quality.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">04</div>
+        <h3>Production Follow-up</h3>
+        <p>Continuous monitoring of production milestones to ensure timely delivery and compliance.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">05</div>
+        <h3>Quality Control</h3>
+        <p>Rigorous inline and final inspections aligned with international quality standards and buyer requirements.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">06</div>
+        <h3>Buyer Communication</h3>
+        <p>Professional handling of all buyer correspondence, approvals, and feedback throughout the order lifecycle.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Let's <em>Work</em> Together</h2>
+      <p>Looking for experienced garment merchandising professionals? We'd love to hear about your project and explore how we can help.</p>
+      <div class="contact-links">
+        <a href="mailto:info@futuremerchandiser.com" class="contact-link">
+          ✉ Email Us
+        </a>
+        <a href="tel:03237448268" class="contact-link">
+          📞 Call Us
+        </a>
+        <a href="#" class="contact-link">
+          💼 LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Future Merchandiser. All rights reserved.</span>
+    <span>Garment Merchandising Experts</span>
+  </footer>
+
+</body>
+</html>
